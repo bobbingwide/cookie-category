@@ -5,12 +5,12 @@ Plugin Name: cookie-category
 Plugin URI: http://www.oik-plugins.com/oik-plugins/cookie-category.php
 Description: cookie categorisation 
 Depends: oik base plugin
-Version: 1.1
+Version: 1.2
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2012 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012, 2013 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -30,9 +30,12 @@ License: GPL2
 
 register_activation_hook( __FILE__, "flush_rewrite_rules" );
 
-add_action( 'admin_menu', "flush_rewrite_rules" );
+//add_action( 'admin_menu', "flush_rewrite_rules" );
 
 add_action( 'oik_fields_loaded', 'cookie_category_init' );
+
+
+add_action( "wp_ajax_create_cc_plugin", "cookie_category_ajax_create_cc_plugin" );
 
 function cookie_category_init( ) {
   oik_register_cookie_category();
@@ -344,6 +347,14 @@ function oik_register_cc_log() {
   //add_filter( "oik_table_titles_${post_type}", "cc_mapping_columns", 10, 3 ); 
 
   
+}
+
+/**
+ * Implement "wp_ajax_create_cc_plugin" for cookie-category 
+ */ 
+function cookie_category_ajax_create_cc_plugin() {
+  e( "If I'd been written then I'd have created a plugin for you herb" );
+  echo bw_ret();
 } 
 
 
