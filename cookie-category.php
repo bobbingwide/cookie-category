@@ -5,12 +5,12 @@ Plugin Name: cookie-category
 Plugin URI: http://www.oik-plugins.com/oik-plugins/cookie-category.php
 Description: cookie categorisation 
 Depends: oik base plugin
-Version: 1.2
+Version: 1.1
 Author: bobbingwide
 Author URI: http://www.bobbingwide.com
 License: GPL2
 
-    Copyright 2012, 2013 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -33,9 +33,6 @@ register_activation_hook( __FILE__, "flush_rewrite_rules" );
 //add_action( 'admin_menu', "flush_rewrite_rules" );
 
 add_action( 'oik_fields_loaded', 'cookie_category_init' );
-
-
-add_action( "wp_ajax_create_cc_plugin", "cookie_category_ajax_create_cc_plugin" );
 
 function cookie_category_init( ) {
   oik_register_cookie_category();
@@ -64,9 +61,9 @@ function oik_register_cookie_category() {
   bw_register_field( "_cookie_category_name", "text", "Simplified cookie name" ); 
   
   $cats = array( 0 => 'None', 1=>'1. Strictly necessary', 2=> '2. Performance', 3=> '3. Functionality', 4=> '4. Targeting/Advertising' );
-  bw_register_field( "_cookie_category", "select", "Cookie category (ICC UK Cookie Guide)", array( '#options' => $cats ) ); 
+  bw_register_field( "_cookie_category", "select", "Cookie category", array( '#options' => $cats, '#hint' => " (ICC UK Cookie Guide)" ) ); 
   bw_register_field( "_cookie_category_sess", "checkbox",  "Session cookie?" );
-  bw_register_field( "_cookie_category_duration", "text", "Duration, if not a session cookie: nnnnn period" ); 
+  bw_register_field( "_cookie_category_duration", "text", "Duration", array( '#hint' => "if not a session cookie: nnnnn period" ) ); 
   
   bw_register_field_for_object_type( "_cookie_category", $post_type );
   bw_register_field_for_object_type( "_cookie_category_sess", $post_type );
@@ -108,24 +105,17 @@ function cookie_category_titles( $titles, $arg2, $fields ) {
   return( $titles ); 
 }
 
-
+/**
+ * This may not be necessary 
 if ( !function_exists( "bw_custom_column_admin" )) {
-function bw_custom_column_admin( $column, $post_id ) {
-  bw_custom_column( $column, $post_id );
-  bw_flush();
-}
+  oik_require2( "includes/bw_fields.inc", "oik-fields" );
+  if ( !function_exists( "bw_custom_column_admin" ) ) {
+    bw_trace2( "Please upgrade oik-fields" );
+    p( "oik-fields plugin version must be version 1.31 or higher" );
+    return;
+  }
 }  
-
-
-if ( !function_exists( "bw_custom_column" ) ) {
-function bw_custom_column( $column, $post_id ) {
-  $data = get_post_meta( $post_id, $column );
-  bw_format_custom_column( $column, $data );
-  
-  //bw_theme_field( $column, $data[0] ); 
-  // bw_flush();  
-}  
-}
+ */
  
 function _bw_theme_field_default__cookie_category( $key, $value ) {
   //gobang();
@@ -177,7 +167,7 @@ function oik_register_plugin() {
                       );
 
   bw_register_field( "_cc_plugin_type", "select", "Plugin type", array( '#options' => $plugin_type ) ); 
-  bw_register_field( "_cc_plugin_cookie_free", "checkbox", "Check if this plugin DOES NOT USE cookies." ); 
+  bw_register_field( "_cc_plugin_cookie_free", "checkbox", "Cookie free?", array( '#hint' => "Check if this plugin DOES NOT USE cookies." ) ); 
 
   bw_register_field_for_object_type( "_cc_plugin_name", $post_type );
   bw_register_field_for_object_type( "_cc_plugin_type", $post_type );
@@ -302,6 +292,7 @@ function oik_cc_mapping_title_save_pre( $post_title = NULL ) {
         if ( $cc_mapping_cookie ) {
           $cookie = bw_get_post( $cc_mapping_cookie, "cookie_category" );
           $cc_mapping_cookie = $cookie->post_title;
+          if ( !$cc_mapping_cookie ) gobang();
         }   
         $cc_mapping_plugin = bw_array_get( $_REQUEST, "_cc_mapping_plugin", null );
         if ( $cc_mapping_plugin ) {
@@ -347,14 +338,6 @@ function oik_register_cc_log() {
   //add_filter( "oik_table_titles_${post_type}", "cc_mapping_columns", 10, 3 ); 
 
   
-}
-
-/**
- * Implement "wp_ajax_create_cc_plugin" for cookie-category 
- */ 
-function cookie_category_ajax_create_cc_plugin() {
-  e( "If I'd been written then I'd have created a plugin for you herb" );
-  echo bw_ret();
 } 
 
 
