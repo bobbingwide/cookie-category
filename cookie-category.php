@@ -4,12 +4,12 @@ Plugin Name: cookie-category
 Plugin URI: https://www.bobbingwide.com/blog/oik-plugins/cookie-category
 Description: cookie categorisation 
 Depends: oik base plugin
-Version: 1.2.0
+Version: 1.3.0
 Author: bobbingwide
 Author URI: https://www.bobbingwide.com/blog/author/bobbingwide
 License: GPL2
 
-    Copyright 2012-2017 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2017,2024 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -69,11 +69,11 @@ function oik_register_cookie_category() {
   bw_register_field_for_object_type( "_cookie_category_duration", $post_type );
   
 
-  add_filter( "manage_edit-${post_type}_columns", "cookie_category_columns", 10 );
-  add_action( "manage_${post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
+  add_filter( "manage_edit-{$post_type}_columns", "cookie_category_columns", 10 );
+  add_action( "manage_{$post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
   
-  add_filter( "oik_table_fields_${post_type}", "cookie_category_fields", 10, 2 );
-  add_filter( "oik_table_titles_${post_type}", "cookie_category_titles", 10, 3 ); 
+  add_filter( "oik_table_fields_{$post_type}", "cookie_category_fields", 10, 2 );
+  add_filter( "oik_table_titles_{$post_type}", "cookie_category_titles", 10, 3 ); 
    
 }
 
@@ -170,11 +170,11 @@ function oik_register_plugin() {
   bw_register_field_for_object_type( "_cc_plugin_cookie_free", $post_type );
   
 
-  add_filter( "manage_edit-${post_type}_columns", "cc_plugin_columns", 10 );
-  add_action( "manage_${post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
+  add_filter( "manage_edit-{$post_type}_columns", "cc_plugin_columns", 10 );
+  add_action( "manage_{$post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
   
 
-  add_filter( "oik_table_titles_${post_type}", "cc_plugin_columns", 10, 3 ); 
+  add_filter( "oik_table_titles_{$post_type}", "cc_plugin_columns", 10, 3 ); 
   
 
 }
@@ -221,13 +221,13 @@ function oik_register_cc_mapping() {
   bw_register_field_for_object_type( "_cc_mapping_3rd_party", $post_type );
   
 
-  add_filter( "manage_edit-${post_type}_columns", "cc_mapping_columns", 10 );
-  add_action( "manage_${post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
+  add_filter( "manage_edit-{$post_type}_columns", "cc_mapping_columns", 10 );
+  add_action( "manage_{$post_type}_posts_custom_column", "bw_custom_column_admin", 10, 2 );
  
   add_post_type_support( $post_type, 'title' );
   add_filter( 'title_save_pre', 'oik_cc_mapping_title_save_pre' ); //if no post title set it
   
-  add_filter( "oik_table_titles_${post_type}", "cc_mapping_columns", 10, 3 ); 
+  add_filter( "oik_table_titles_{$post_type}", "cc_mapping_columns", 10, 3 ); 
 
   
 } 
@@ -256,7 +256,8 @@ function cc_mapping_columns( $columns ) {
  */
 function oik_cc_mapping_add_feed() {
  $hook = add_feed( 'cc_mapping', "oik_cc_mapping_feed");
- //bw_trace2( $hook );
+ bw_trace2( $hook );
+ //gob();
 }
 
 function oik_cc_mapping_feed() {

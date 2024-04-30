@@ -308,9 +308,9 @@ function oik_cc_export_cookie( $cookie_id, $cookie_name ) {
 
 function oik_cc_mapping_cookies() {
   global $cookies;
-  bw_trace2( $cookies );
+  bw_trace2( $cookies, "cookies", false );
   stag( "cookies" );
-  if ( count( $cookies ) ) {
+  if ( $cookies && count( $cookies ) ) {
     foreach ( $cookies as $cookie_id => $cookie_name ) {
       oik_cc_export_cookie( $cookie_id, $cookie_name );  
     } 
@@ -437,7 +437,7 @@ function oik_cc_validate_request() {
  *  [REMOTE_ADDR] => 78.146.252.66
  */  
 function oik_lazy_cc_mapping_feed() {
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   oik_cc_set_current_user(); 
   $valid_request = oik_cc_validate_request();
   if ( $valid_request ) {
