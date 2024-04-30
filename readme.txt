@@ -3,8 +3,8 @@ Contributors: bobbingwide
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: cookie catalog
 Requires at least: 4.7.3
-Tested up to: 4.7.3
-Stable tag: 1.2.0
+Tested up to: 6.5.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ See cookie-cat.co.uk
 1. None
 
 == Upgrade Notice ==
+= 1.3.0 =
+Tested with PHP 83 and WordPress 6.5.2
+
 = 1.2.0 =
 Tested with PHP 7.1 and WordPress 4.7.3. 
 
@@ -35,6 +38,9 @@ First published version.
 New plugin to support cookie-cat v1.1
 
 == Changelog == 
+= 1.3.0 =
+* Changed: Support PHP 8.3,[github bobbingwide cookie-category issues 3]
+
 = 1.2.0 = 
 * Changed: Support PHP 7.1,[github bobbingwide cookie-category issues 1]
 * Changed: Added readme
@@ -44,4 +50,3 @@ New plugin to support cookie-cat v1.1
 
 = 0.1 =
 * Added: New plugin	2012/07/20
-
